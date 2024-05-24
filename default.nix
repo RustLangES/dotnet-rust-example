@@ -9,7 +9,7 @@
 }: let
   # fenix: rustup replacement for reproducible builds
   toolchain = fenix.${system}.fromToolchainFile {
-    file = ./rust-toolchain.toml;
+    file = ./rustlib/rust-toolchain.toml;
     sha256 = "sha256-opUgs6ckUQCyDxcB9Wy51pqhd0MPGHUVbwRKKPGiwZU=";
   };
   # crane: cargo and artifacts manager
