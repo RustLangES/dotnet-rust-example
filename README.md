@@ -75,3 +75,9 @@ La comparativa de algunos tipos de datos complejos se refleja en la siguiente ta
 | `List`       | `Vec`     |
 | `Tuple`      | `Tuple`   |
 | `Dictionary` | `HashMap` |
+
+### Inspiraciones y proyectos similares
+
+- [https://github.com/KodrAus/rust-csharp-ffi](https://github.com/KodrAus/rust-csharp-ffi)
+- [https://github.com/aeshirey/RustDotNet](https://github.com/aeshirey/RustDotNet)
+- [csbindgen](https://github.com/Cysharp/csbindgen)
