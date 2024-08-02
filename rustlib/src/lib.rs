@@ -23,7 +23,7 @@ fn str_to_char(text: &str) -> *mut c_char {
 }
 
 #[no_mangle]
-extern "C" fn jotchua() -> Persona {
+extern "C" fn get_user() -> Persona {
     Persona {
         nombre: str_to_char("jotchua"),
         edad: 86,
@@ -64,15 +64,4 @@ extern "C" fn texto(ola: *const c_char) -> *mut c_char {
 
     let c_result = CString::new(result).expect("2");
     c_result.into_raw()
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
 }
