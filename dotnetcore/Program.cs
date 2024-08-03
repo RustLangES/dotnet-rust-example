@@ -1,23 +1,5 @@
 ﻿using System.Runtime.InteropServices;
 
-[StructLayout(LayoutKind.Sequential)]
-public struct Persona
-{
-    public IntPtr nombre;
-    public uint edad;
-    public IntPtr nacionalidad;
-}
-
-public enum Frutas : int
-{
-    Pera,
-    Manzana,
-    Guayaba,
-    Mora,
-    Aguacate,
-    Tomate
-}
-
 /// <summary>
 /// Llama a la función "add" desde la biblioteca "rustlib", que suma dos valores <see cref="ulong"/>
 /// <param name="a">Primer numero.</param>
@@ -51,3 +33,21 @@ static extern Frutas fruta_random();
 /// <returns>Un puntero a la nueva cadena de texto generada.</returns>
 [DllImport("rustlib")]
 static extern IntPtr texto(IntPtr ola);
+
+[StructLayout(LayoutKind.Sequential)]
+public struct Persona
+{
+    public IntPtr nombre;
+    public uint edad;
+    public IntPtr nacionalidad;
+}
+
+public enum Frutas : int
+{
+    Pera,
+    Manzana,
+    Guayaba,
+    Mora,
+    Aguacate,
+    Tomate
+}
