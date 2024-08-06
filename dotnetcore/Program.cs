@@ -34,16 +34,22 @@ static extern Frutas fruta_random();
 [DllImport("rustlib")]
 static extern IntPtr texto(IntPtr ola);
 
+/// <summary>
+/// Libera la memoria de un string.
+/// </summary>
 [DllImport("rustlib")]
 static extern void release_string(IntPtr ptr);
 
+/// <summary>
+/// Ejemplo de uso de `texto`
+/// </summary>
 void Texto()
 {
-    IntPtr a = Marshal.StringToHGlobalAnsi("hola");
+    IntPtr a = Marshal.StringToHGlobalAnsi("hola"); // Convierte "hola" a un puntero
     var b = texto(a);
-    string result = Marshal.PtrToStringAnsi(b)!;
+    string result = Marshal.PtrToStringAnsi(b)!; // Convierte el puntero devuelto por "texto" a un `String`
     Console.WriteLine(result);
-    release_string(b);
+    release_string(b); // Libera la memoria usada por `b`
 }
 
 [StructLayout(LayoutKind.Sequential)]
