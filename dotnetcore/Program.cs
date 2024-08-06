@@ -34,6 +34,18 @@ static extern Frutas fruta_random();
 [DllImport("rustlib")]
 static extern IntPtr texto(IntPtr ola);
 
+[DllImport("rustlib")]
+static extern void release_string(IntPtr ptr);
+
+void Texto()
+{
+    IntPtr a = Marshal.StringToHGlobalAnsi("hola");
+    var b = texto(a);
+    string result = Marshal.PtrToStringAnsi(b)!;
+    Console.WriteLine(result);
+    release_string(b);
+}
+
 [StructLayout(LayoutKind.Sequential)]
 public struct Persona
 {

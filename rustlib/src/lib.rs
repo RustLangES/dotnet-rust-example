@@ -65,3 +65,8 @@ extern "C" fn texto(ola: *const c_char) -> *mut c_char {
     let c_result = CString::new(result).expect("2");
     c_result.into_raw()
 }
+
+#[no_mangle]
+extern "C" fn release_string(ptr: *mut c_char) {
+    let _ = unsafe { CString::from_raw(ptr) };
+}
