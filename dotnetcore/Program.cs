@@ -1,5 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 
+Lista();
+
 /// <summary>
 /// Llama a la función "add" desde la biblioteca "rustlib", que suma dos valores <see cref="ulong"/>
 /// <param name="a">Primer numero.</param>
@@ -40,6 +42,25 @@ static extern IntPtr texto(IntPtr ola);
 [DllImport("rustlib")]
 static extern void release_string(IntPtr ptr);
 
+
+[DllImport("rustlib")]
+static extern IntPtr get_list(out ulong lenght);
+
+
+[DllImport("rustlib")]
+static extern void release_vec();
+
+void Lista() {
+  IntPtr listaPtr = get_list(out ulong length);
+  int[] dataArray = new int[length];
+  Marshal.Copy(listaPtr, dataArray, 0, (int)length);
+  foreach (var item in dataArray) {
+    Console.WriteLine(item);
+  }
+
+  release_vec();
+}
+
 /// <summary>
 /// Ejemplo de uso de `texto`
 /// </summary>
@@ -69,3 +90,4 @@ public enum Frutas : int
     Aguacate,
     Tomate
 }
+
