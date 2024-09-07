@@ -1,5 +1,7 @@
 use rand::seq::SliceRandom;
+use std::alloc::Layout;
 use std::ffi::CString;
+use std::mem;
 use std::os::raw::{c_char, c_void};
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
@@ -79,13 +81,19 @@ extern "C" fn get_list(out_len: *mut usize) -> *const i32 {
         *out_len = len;
     }
     let ptr = lista.as_ptr();
-    std::mem::forget(lista);
+    mem::forget(lista);
     ptr
 }
 
 #[no_mangle]
-extern "C" fn release_vec(ptr: *mut c_void, len: usize) {
-    let _ = unsafe {
-        Vec::from_raw_parts(ptr as *mut i32, len, len);
+extern "C" fn cambiar_nacionalidad(persona: Persona) -> Persona {
+    let layout = Layout::from_size_align(1024, 8).unwrap();
+    unsafe {
+        std::alloc::dealloc(persona.nacionalidad.cast::<u8>(), layout);
     };
+    let nueva_nacionalidad = CString::new("Bolivia").expect(".");
+    unsafe {
+        *persona.nacionalidad = *nueva_nacionalidad.into_raw();
+        persona
+    }
 }

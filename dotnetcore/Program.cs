@@ -1,6 +1,8 @@
-﻿using System.Runtime.InteropServices;
+﻿// Disabled unused function warnings
+#pragma warning disable CS8321 
 
-Lista();
+using System.Runtime.InteropServices;
+
 
 /// <summary>
 /// Llama a la función "add" desde la biblioteca "rustlib", que suma dos valores <see cref="ulong"/>
@@ -13,6 +15,7 @@ static extern ulong add(ulong a, ulong b);
 /// <summary>
 /// Imprime una item del enum `Frutas` en la pantalla usando una función de Rust.
 /// </summary>
+/// <param name="cosa">El item a imprimir</param>
 [DllImport("rustlib", CallingConvention = CallingConvention.Cdecl)]
 static extern void print(Frutas cosa);
 
@@ -39,16 +42,24 @@ static extern IntPtr texto(IntPtr ola);
 /// <summary>
 /// Libera la memoria de un string.
 /// </summary>
+/// <param name="ptr">Puntero al string a liberar.</param>
 [DllImport("rustlib")]
 static extern void release_string(IntPtr ptr);
 
-
+/// <summary>
+/// Obten un puntero a una lista desde rust
+/// </summary>
+/// <param name="lenght">La longitud de la lista (out).</param>
 [DllImport("rustlib")]
 static extern IntPtr get_list(out ulong lenght);
 
 
+/// <summary>
+/// Cambia la nacionalidad de una Persona a "Bolivia"
+/// </summary>
+/// <param name="persona">El objeto de `Persona` a modificar.</param>
 [DllImport("rustlib")]
-static extern void release_vec();
+static extern Persona cambiar_nacionalidad(Persona persona);
 
 void Lista() {
   IntPtr listaPtr = get_list(out ulong length);
@@ -57,8 +68,6 @@ void Lista() {
   foreach (var item in dataArray) {
     Console.WriteLine(item);
   }
-
-  release_vec();
 }
 
 /// <summary>
@@ -71,6 +80,22 @@ void Texto()
     string result = Marshal.PtrToStringAnsi(b)!; // Convierte el puntero devuelto por "texto" a un `String`
     Console.WriteLine(result);
     release_string(b); // Libera la memoria usada por `b`
+}
+
+/// <summary>
+/// Ejemplo de uso de `Persona` y `cambiar_nacionalidad`
+/// </summary>
+void Persona() {
+  var jotchua = new Persona();
+  jotchua.nombre = Marshal.StringToHGlobalAnsi("Jotchua");
+  jotchua.edad = 68;
+  jotchua.nacionalidad = Marshal.StringToHGlobalAnsi("Peru");
+
+  Console.WriteLine(Marshal.PtrToStringAnsi(jotchua.nacionalidad)); // Peru
+  
+  cambiar_nacionalidad(jotchua);
+  
+  Console.WriteLine(Marshal.PtrToStringAnsi(jotchua.nacionalidad)); // Bolivia
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -90,4 +115,3 @@ public enum Frutas : int
     Aguacate,
     Tomate
 }
-
