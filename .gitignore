@@ -1,0 +1,40 @@
+# IDE stuff
+.vscode/
+.fleet/
+.idea/
+.vs/
+
+# Build results
+dist/
+[Bb]uild/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+target/
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# dotCover
+*.dotCover
+
+# Apple
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# NodeJS
+node_modules/
