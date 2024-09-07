@@ -1,8 +1,8 @@
 use rand::seq::SliceRandom;
-use std::alloc::Layout;
+use std::alloc::{dealloc, Layout};
 use std::ffi::CString;
 use std::mem;
-use std::os::raw::{c_char, c_void};
+use std::os::raw::c_char;
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
 
@@ -89,7 +89,7 @@ extern "C" fn get_list(out_len: *mut usize) -> *const i32 {
 extern "C" fn cambiar_nacionalidad(persona: Persona) -> Persona {
     let layout = Layout::from_size_align(1024, 8).unwrap();
     unsafe {
-        std::alloc::dealloc(persona.nacionalidad.cast::<u8>(), layout);
+        dealloc(persona.nacionalidad.cast::<u8>(), layout);
     };
     let nueva_nacionalidad = CString::new("Bolivia").expect(".");
     unsafe {
