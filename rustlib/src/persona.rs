@@ -1,5 +1,6 @@
 use std::alloc::{dealloc, Layout};
 use std::ffi::{c_char, CStr, CString};
+use std::ptr;
 
 fn str_to_char(text: &str) -> *mut c_char {
     let c_texto = CString::new(text).expect("Failed to convert");
@@ -39,6 +40,16 @@ extern "C" fn cambiar_nacionalidad(persona: &mut Persona) -> &mut Persona {
     persona
 }
 
+#[no_mangle]
+extern "C" fn release_persona(persona: &mut Persona) {
+    unsafe {
+        let _ = CString::from_raw(persona.nombre);
+        let _ = CString::from_raw(persona.nacionalidad);
+        persona.nombre = ptr::null_mut();
+        persona.nacionalidad = ptr::null_mut();
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -61,5 +72,25 @@ mod tests {
         let nacionalidad = unsafe { CString::from_raw(user.nacionalidad).into_string().unwrap() };
 
         assert_eq!(nacionalidad, "Bolivia");
+    }
+
+    #[test]
+    fn test_release_persona() {
+        let nombre = CString::new("Alice").unwrap().into_raw();
+        let nacionalidad = CString::new("Wonderland").unwrap().into_raw();
+
+        let mut persona = Persona {
+            nombre,
+            edad: 60,
+            nacionalidad,
+        };
+
+        assert!(!persona.nombre.is_null());
+        assert!(!persona.nacionalidad.is_null());
+
+        release_persona(&mut persona);
+
+        assert!(persona.nombre.is_null());
+        assert!(persona.nacionalidad.is_null());
     }
 }

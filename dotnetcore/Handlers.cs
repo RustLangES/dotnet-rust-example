@@ -40,5 +40,7 @@ public abstract class Handlers
         Interop.cambiar_nacionalidad(jotchua);
 
         Console.WriteLine(Marshal.PtrToStringAnsi(jotchua.nacionalidad)); // Bolivia
+
+	Interop.release_persona(jotchua);
     }
 }
