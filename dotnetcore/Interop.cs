@@ -57,4 +57,11 @@ public static class Interop
     /// <param name="persona">El objeto de `Persona` a modificar.</param>
     [DllImport("rustlib")]
     public static extern Persona cambiar_nacionalidad(Persona persona);
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="persona">El objeto de `Persona` a liberar.</param>
+    [DllImport("rustlib")]
+    public static extern void release_persona(Persona persona);
 }
