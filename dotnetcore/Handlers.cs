@@ -43,4 +43,15 @@ public abstract class Handlers
 
 	Interop.release_persona(jotchua);
     }
+
+    public static void HashMap() {
+      IntPtr mapa = Interop.obtener_inventario();
+
+      string key = "aguacates";
+      var keyPtr = Marshal.StringToHGlobalAnsi(key);
+
+      var result = Interop.obtener_cantidad(mapa, keyPtr);
+      Console.WriteLine($"{key}: {result}");
+
+    }
 }

@@ -1,6 +1,7 @@
 #![warn(clippy::pedantic)]
 
 mod fruta;
+mod inventario;
 mod list;
 mod persona;
 mod text;
