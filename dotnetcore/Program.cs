@@ -19,5 +19,10 @@ public abstract class Program
 
         // Ejemplo de uso de Persona y cambiar_nacionalidad
         Handlers.Persona();
+
+        Console.WriteLine(separador);
+
+	Handlers.HashMap();
+
     }
 }

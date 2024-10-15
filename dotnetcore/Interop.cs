@@ -57,4 +57,13 @@ public static class Interop
     /// <param name="persona">El objeto de `Persona` a modificar.</param>
     [DllImport("rustlib")]
     public static extern Persona cambiar_nacionalidad(Persona persona);
+
+    /// <summary>
+    /// Obten un inventario de productos y sus cantidades
+    /// </summary>
+    [DllImport("rustlib")]
+    public static extern IntPtr obtener_inventario();
+
+    [DllImport("rustlib")]
+    public static extern int obtener_cantidad(IntPtr mapa, IntPtr key);  
 }
