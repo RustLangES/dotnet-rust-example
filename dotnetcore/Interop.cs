@@ -66,4 +66,9 @@ public static class Interop
 
     [DllImport("rustlib")]
     public static extern int obtener_cantidad(IntPtr mapa, IntPtr key);  
+    /// <summary>
+    /// </summary>
+    /// <param name="persona">El objeto de `Persona` a liberar.</param>
+    [DllImport("rustlib")]
+    public static extern void release_persona(Persona persona);
 }
