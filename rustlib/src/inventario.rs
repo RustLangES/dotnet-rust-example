@@ -21,3 +21,8 @@ extern "C" fn obtener_cantidad(mapa: *mut HashMap<&'static str, i32>, key: *cons
     let value = mapa.get(key).expect("Cannot get value");
     *value
 }
+
+#[no_mangle]
+extern "C" fn release_inventario(mapa: *mut HashMap<&'static str, i32>) {
+    _ = unsafe { &mut *mapa };
+}
