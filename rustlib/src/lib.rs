@@ -2,7 +2,7 @@
 
 mod fruta;
 mod inventario;
-mod list;
+mod lista;
 mod persona;
 mod text;
 
