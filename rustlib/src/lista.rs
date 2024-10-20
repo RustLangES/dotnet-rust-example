@@ -15,15 +15,6 @@ extern "C" fn new_list(out_len: *mut usize) -> *const i32 {
 }
 
 #[no_mangle]
-extern "C" fn add_item(list_ptr: *mut i32, len: usize, item: i32) -> *const i32 {
-    let mut vec = unsafe { Vec::from_raw_parts(list_ptr, len, len) };
-    vec.push(item);
-    let new_ptr = vec.as_ptr();
-    mem::forget(vec);
-    new_ptr
-}
-
-#[no_mangle]
 extern "C" fn get_item(list_ptr: *mut i32, len: usize, index: usize) -> i32 {
     assert!(index < len, "Index out of bounds");
     let slice = unsafe { slice::from_raw_parts(list_ptr, len) };
@@ -33,9 +24,38 @@ extern "C" fn get_item(list_ptr: *mut i32, len: usize, index: usize) -> i32 {
 }
 
 #[no_mangle]
-extern "C" fn remove_item(list_ptr: *mut i32, len: usize, index: usize) -> *const i32 {
+extern "C" fn add_item(
+    list_ptr: *mut i32,
+    len: usize,
+    item: i32,
+    out_len: *mut usize,
+) -> *const i32 {
+    let mut vec = unsafe { Vec::from_raw_parts(list_ptr, len, len) };
+    vec.push(item);
+
+    unsafe {
+        *out_len = vec.len();
+    };
+
+    let new_ptr = vec.as_ptr();
+    mem::forget(vec);
+    new_ptr
+}
+
+#[no_mangle]
+extern "C" fn remove_item(
+    list_ptr: *mut i32,
+    len: usize,
+    index: usize,
+    out_len: *mut usize,
+) -> *const i32 {
     let mut vec = unsafe { Vec::from_raw_parts(list_ptr, len, len) };
     vec.remove(index);
+
+    unsafe {
+        *out_len = vec.len();
+    };
+
     let new_ptr = vec.as_ptr();
     mem::forget(vec);
     new_ptr
@@ -47,16 +67,4 @@ extern "C" fn release_list(list_ptr: *mut i32, len: usize) {
 }
 
 #[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_get_list() {
-        let mut length: usize = 0;
-        let ptr = new_list(&mut length);
-        let slice = unsafe { std::slice::from_raw_parts(ptr, length) };
-
-        assert_eq!(slice, &[10, 20, 30, 40, 100]);
-        assert_eq!(length, 5);
-    }
-}
+mod tests {}

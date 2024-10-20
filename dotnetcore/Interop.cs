@@ -24,6 +24,19 @@ public static class Interop
     public static extern Persona get_user();
 
     /// <summary>
+    /// Cambia la nacionalidad de una Persona a "Bolivia"
+    /// </summary>
+    /// <param name="persona">El objeto de `Persona` a modificar.</param>
+    [DllImport("rustlib")]
+    public static extern Persona cambiar_nacionalidad(Persona persona);
+
+    /// <summary>
+    /// </summary>
+    /// <param name="persona">El objeto de `Persona` a liberar.</param>
+    [DllImport("rustlib")]
+    public static extern void release_persona(Persona persona);
+
+    /// <summary>
     /// Devuelve un valor del enum `Frutas` desde Rust.
     /// </summary>
     [DllImport("rustlib")]
@@ -49,14 +62,19 @@ public static class Interop
     /// </summary>
     /// <param name="lenght">La longitud de la lista (out).</param>
     [DllImport("rustlib")]
-    public static extern IntPtr get_list(out ulong lenght);
+    public static extern IntPtr new_list(out ulong length);
 
-    /// <summary>
-    /// Cambia la nacionalidad de una Persona a "Bolivia"
-    /// </summary>
-    /// <param name="persona">El objeto de `Persona` a modificar.</param>
     [DllImport("rustlib")]
-    public static extern Persona cambiar_nacionalidad(Persona persona);
+    public static extern IntPtr add_item(IntPtr list_ptr, ulong len, int item, out ulong length);
+
+    [DllImport("rustlib")]
+    public static extern int get_item(IntPtr list_ptr, ulong len, ulong index);
+
+    [DllImport("rustlib")]
+    public static extern IntPtr remove_item(IntPtr list_ptr, ulong len, ulong index, out ulong length);
+
+    [DllImport("rustlib")]
+    public static extern void release_list(IntPtr ptr);
 
     /// <summary>
     /// Obten un inventario de productos y sus cantidades
@@ -65,10 +83,8 @@ public static class Interop
     public static extern IntPtr obtener_inventario();
 
     [DllImport("rustlib")]
-    public static extern int obtener_cantidad(IntPtr mapa, IntPtr key);  
-    /// <summary>
-    /// </summary>
-    /// <param name="persona">El objeto de `Persona` a liberar.</param>
+    public static extern int obtener_cantidad(IntPtr mapa, IntPtr key);
+
     [DllImport("rustlib")]
-    public static extern void release_persona(Persona persona);
+    public static extern void release_inventario(IntPtr mapa);
 }
