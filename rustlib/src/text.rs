@@ -22,21 +22,11 @@ mod tests {
     use std::ffi::CString;
 
     #[test]
-    fn test_texto() {
+    fn text() {
         let input = CString::new("hola").unwrap();
         let ptr = texto(input.as_ptr());
         let result = unsafe { CString::from_raw(ptr).into_string().unwrap() };
 
         assert_eq!(result, "hola :3");
     }
-
-    /*
-    #[test]
-    fn test_release_string() {
-        let input = CString::new("temp").unwrap();
-        let ptr = input.into_raw();
-        release_string(ptr);
-        // No assertion, solo probamos que no haya error al liberar la memoria.
-    }
-    */
 }

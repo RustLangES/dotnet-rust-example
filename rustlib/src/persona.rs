@@ -52,10 +52,11 @@ extern "C" fn release_persona(persona: &mut Persona) {
 
 #[cfg(test)]
 mod tests {
+
     use super::*;
 
     #[test]
-    fn test_get_user() {
+    fn user() {
         let user = get_user();
         let nombre = unsafe { CString::from_raw(user.nombre).into_string().unwrap() };
         let nacionalidad = unsafe { CString::from_raw(user.nacionalidad).into_string().unwrap() };
@@ -66,7 +67,7 @@ mod tests {
     }
 
     #[test]
-    fn test_cambiar_nacionalidad() {
+    fn nacionalidad() {
         let mut user = &mut get_user();
         user = cambiar_nacionalidad(user);
         let nacionalidad = unsafe { CString::from_raw(user.nacionalidad).into_string().unwrap() };
@@ -75,7 +76,7 @@ mod tests {
     }
 
     #[test]
-    fn test_release_persona() {
+    fn release() {
         let nombre = CString::new("Alice").unwrap().into_raw();
         let nacionalidad = CString::new("Wonderland").unwrap().into_raw();
 
