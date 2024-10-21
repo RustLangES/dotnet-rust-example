@@ -4,13 +4,21 @@ public abstract class Handlers
 {
     public static void Lista()
     {
-        IntPtr listaPtr = Interop.get_list(out ulong length);
-        int[] dataArray = new int[length];
-        Marshal.Copy(listaPtr, dataArray, 0, (int)length);
-        foreach (var item in dataArray)
-        {
-            Console.WriteLine(item);
-        }
+        ulong length;
+        IntPtr listPtr = Interop.new_list(out length);
+
+        Console.WriteLine($"Nueva lista con tamaño: {length}");
+
+        listPtr = Interop.add_item(listPtr, length, 42, out length);
+        Console.WriteLine($"Añadido `42` a lista, nuevo tamaño : {length}");
+
+        int item = Interop.get_item(listPtr, length, 0);
+        Console.WriteLine($"Item en indice 0: {item}");
+
+        listPtr = Interop.remove_item(listPtr, length, 0, out length);
+        Console.WriteLine($"Eliminado item en 0, nuevo tamaño: {length}");
+
+        Interop.release_list(listPtr);
     }
 
     /// <summary>
@@ -41,17 +49,19 @@ public abstract class Handlers
 
         Console.WriteLine(Marshal.PtrToStringAnsi(jotchua.nacionalidad)); // Bolivia
 
-	Interop.release_persona(jotchua);
+        Interop.release_persona(jotchua);
     }
 
-    public static void HashMap() {
-      IntPtr mapa = Interop.obtener_inventario();
+    public static void HashMap()
+    {
+        IntPtr mapa = Interop.obtener_inventario();
 
-      string key = "aguacates";
-      var keyPtr = Marshal.StringToHGlobalAnsi(key);
+        string key = "aguacates";
+        var keyPtr = Marshal.StringToHGlobalAnsi(key);
 
-      var result = Interop.obtener_cantidad(mapa, keyPtr);
-      Console.WriteLine($"{key}: {result}");
+        var result = Interop.obtener_cantidad(mapa, keyPtr);
+        Console.WriteLine($"{key}: {result}");
 
+        Interop.release_inventario(mapa);
     }
 }

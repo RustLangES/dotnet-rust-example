@@ -7,11 +7,6 @@ public abstract class Program
     {
         var separador = String.Concat(Enumerable.Repeat("-", 20));
 
-        // Ejemplo de uso de la lista
-        Handlers.Lista();
-
-        Console.WriteLine(separador);
-
         // Ejemplo de uso de la función texto
         Handlers.Texto();
 
@@ -22,7 +17,12 @@ public abstract class Program
 
         Console.WriteLine(separador);
 
-	Handlers.HashMap();
+	// Ejemplo HashMap
+        Handlers.HashMap();
 
+        Console.WriteLine(separador);
+
+	// Ejemplo Lista
+        Handlers.Lista();
     }
 }

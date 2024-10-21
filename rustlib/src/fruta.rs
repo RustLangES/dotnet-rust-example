@@ -31,12 +31,12 @@ mod tests {
     use strum::IntoEnumIterator;
 
     #[test]
-    fn test_print() {
+    fn tprint() {
         print(Frutas::Pera); // No se verifica pero debería imprimir "Pera"
     }
 
     #[test]
-    fn test_fruta_random() {
+    fn random() {
         let frutas: Vec<Frutas> = Frutas::iter().collect();
         let fruta = fruta_random();
         assert!(frutas.contains(&fruta), "Fruta aleatoria no es válida");

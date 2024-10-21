@@ -21,3 +21,39 @@ extern "C" fn obtener_cantidad(mapa: *mut HashMap<&'static str, i32>, key: *cons
     let value = mapa.get(key).expect("Cannot get value");
     *value
 }
+
+#[no_mangle]
+extern "C" fn release_inventario(mapa: *mut HashMap<&'static str, i32>) {
+    if !mapa.is_null() {
+        unsafe {
+            mapa.drop_in_place();
+        };
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use std::ffi::CString;
+
+    use super::*;
+
+    #[test]
+    fn obtener() {
+        let inv = obtener_inventario();
+        let mapa = unsafe { &mut *inv };
+        let cantidad_manzanas = mapa.get("manzanas");
+        assert_eq!(cantidad_manzanas, Some(10).as_ref());
+
+        release_inventario(inv);
+    }
+
+    #[test]
+    fn cantidad() {
+        let inv = obtener_inventario();
+        let key = CString::new("manzanas").unwrap();
+        let cant = obtener_cantidad(inv, key.as_ptr());
+        assert_eq!(cant, 10);
+
+        release_inventario(inv);
+    }
+}
